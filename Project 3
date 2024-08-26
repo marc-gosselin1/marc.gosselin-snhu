@@ -1,0 +1,72 @@
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <string>
+
+using namespace std;
+
+int main() {
+	
+	ifstream inputFile("CS210_Project_Three_Input_File.txt");//inputs txt file
+	ofstream outputFile("frequency.dat");//outputs file for backup data
+	map<string, int> foodFrequency;//used map to store data
+	string item;//this reads items inputed from input file and stores in map
+	
+	while (inputFile >> item) {//while loop for input file data to correlate with item and to set foodFrequency to items in the input file
+		++foodFrequency[item];
+	}
+
+	for (auto i:foodFrequency) {//writes to map and outputs to backup file
+		outputFile << i.first << " " << i.second << endl;
+	}
+
+	int itemOption;
+	do {
+		cout << "Menu Options" << endl;//outputs menu options to choose from
+		cout << "1: Get the frequency of a certain food item" << endl;
+		cout << "2: Print the frequency of all food items purchased" << endl;
+		cout << "3: Print the frequency for all food items in the form of a histogram" << endl;
+		cout << "4: Exit" << endl;
+		cin >> itemOption;//user inputed data for menu option number
+		cout << "\n";
+		switch(itemOption) {
+			case 1: {//this case runs if user inputs 1
+				string findFoodItem;//declared variable
+				cout << "Please enter the food item to get the frequency " << endl;
+				cin >> findFoodItem;//user inputs food they want the frequency of
+				cout << findFoodItem << " shows " << foodFrequency[findFoodItem] << " times.\n" << endl;//shows food item user chose followed by the number of times it shows up
+				break;//allows for another menu option to be chosen
+				}
+			case 2: {//this case runs if user inputs 2 
+				cout << "Food item frequency \n" << endl;
+				for (auto i:foodFrequency) {//this will display all food and the number of times it shows on the list
+					cout << i.first << " " << i.second << endl;
+				}
+				cout << "\n";
+				break;//allows for another menu option to be chosen
+			case 3: {//this case runs if the user inputs 3
+				cout << "Food item in histogram form" << endl;
+				for (auto i:foodFrequency) {//this will display all time food is on the list in the for of stars next to the food item
+					cout << i.first << " ";
+					for (int j = 0; j < i.second; ++j) {
+						cout << "*";
+					}
+					cout << endl;
+				}
+				cout << "\n";
+				break;
+				}
+			case 4: {
+				break;
+			}
+			default: {//if user inputs anything other that 1,2,3,4 then the deafult will have user try to input again
+				cout << "You have entered an invalid option from Menu Options, please try again! \n" << endl;
+				break;//allows for user to choose another input
+				}
+			}
+		}
+	} 
+	while (itemOption != 4);//while loop for program to run if user does not equal to 4 which is to exit
+
+	return 0;
+}
